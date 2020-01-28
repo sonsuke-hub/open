@@ -12,7 +12,7 @@
 <body>
   <div id="app">
     <!-- keywordをv-modelで定義することで、inputの内容(=keyword)が変更されるたびにfilterUsers()が実行されます -->
-    <input v-model="keyword" placeholder="Search...">
+    <input v-model="keyword" placeholder="Search">
     <ul>
       <!-- keywordが更新されるたびにリストを書き換えたいので、算出プロパティ(computed)を使います。 -->
       <li v-for="user in filteredUsers">
