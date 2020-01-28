@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html lang="ja" ng-app="tredina">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- keywordをv-modelで定義することで、inputの内容(=keyword)が変更されるたびにfilterUsers()が実行されます -->
+    <input v-model="keyword" placeholder="Search...">
+    <ul>
+      <!-- keywordが更新されるたびにリストを書き換えたいので、算出プロパティ(computed)を使います。 -->
+      <li v-for="user in filteredUsers">
+        {{ user.username }}
+      </li>
+    </ul>
+  </div>
+  
+  <script>
+  const app = new Vue({
+      el: '#app',
+      data: {
+          users: null,
+          keyword: '',
+      },
+      mounted: function() {
+          this.getUsers();
+      },
+      computed: {
+          filteredUsers: function () {
+              return this.filterUsers();
+          }
+      },
+      methods: {
+  　　　　　// API取得
+          getUsers: function () {
+              axios.get('https://jsonplaceholder.typicode.com/users')
+              .then(res => {
+                  this.users = res.data
+              })
+              .catch(err => {
+                  console.log(err.statusText)
+              });
+          },
+          // keywordに一致するuserを配列に格納し、それを返します
+          filterUsers: function () {
+              let filtered = [];
+              for (let i in this.users) {
+                  let user = this.users[i];
+                  if (user.username.indexOf(this.keyword) !== -1) {
+                      filtered.push(user);
+                  }
+               }
+              return filtered;
+          }
+      }
+  });
+  </script>
+</body>
+
+</html>
