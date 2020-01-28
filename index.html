@@ -16,7 +16,7 @@
     <ul>
       <!-- keywordが更新されるたびにリストを書き換えたいので、算出プロパティ(computed)を使います。 -->
       <li v-for="user in filteredUsers">
-        {{ user.username }}
+        {{ user.name }}
       </li>
     </ul>
   </div>
@@ -39,7 +39,7 @@
       methods: {
   　　　　　// API取得
           getUsers: function () {
-              axios.get('https://jsonplaceholder.typicode.com/users')
+              axios.get('./db.json')
               .then(res => {
                   this.users = res.data
               })
@@ -52,7 +52,7 @@
               let filtered = [];
               for (let i in this.users) {
                   let user = this.users[i];
-                  if (user.username.indexOf(this.keyword) !== -1) {
+                  if (user.name.indexOf(this.keyword) !== -1) {
                       filtered.push(user);
                   }
                }
